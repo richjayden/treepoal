@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="theme-color" content="#F7F5F0"/>
+<title>treepoal — 나무의 가능성</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --cream:#F7F5F0;
+  --ink:#1C1B18;
+  --oak:#8A7254;
+  --sand:#D6CCBA;
+  --mist:#EEEBE4;
+  --soft:#5A5448;
+}
+html,body{background:var(--cream);color:var(--ink);-webkit-tap-highlight-color:transparent;}
+body{font-family:'DM Sans',sans-serif;min-height:100vh;}
+
+/* ── HEADER ── */
+.tp-hd{
+  display:flex;align-items:baseline;justify-content:space-between;
+  padding:1.8rem 1.6rem 1.3rem;
+  border-bottom:0.5px solid var(--sand);
+  position:sticky;top:0;background:var(--cream);z-index:10;
+}
+.tp-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:21px;font-weight:300;letter-spacing:0.14em;
+}
+.tp-logo em{color:var(--oak);font-style:italic;}
+.tp-sub{font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:var(--oak);}
+
+/* ── VIEWS ── */
+.view{display:none;}
+.view.active{display:block;}
+
+/* ── MAIN ── */
+.eyebrow{
+  padding:1.5rem 1.6rem 0.8rem;
+  font-size:9px;letter-spacing:0.26em;text-transform:uppercase;color:var(--oak);
+}
+
+.studio-list{display:flex;flex-direction:column;}
+
+.s-card{
+  position:relative;cursor:pointer;overflow:hidden;
+  border-bottom:0.5px solid var(--sand);
+}
+.s-card-img{
+  width:100%;height:56vw;max-height:340px;
+  object-fit:cover;display:block;
+  transition:transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s;
+  filter:brightness(0.86);
+}
+.s-card:active .s-card-img{transform:scale(1.03);filter:brightness(0.72);}
+.s-card-ph{
+  width:100%;height:56vw;max-height:340px;
+  display:flex;align-items:center;justify-content:center;
+  transition:filter 0.4s;
+  filter:brightness(0.92);
+}
+.s-card-overlay{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:1.4rem 1.6rem;
+  background:linear-gradient(to top,rgba(20,18,14,0.58) 0%,transparent 58%);
+}
+.s-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:30px;font-weight:300;color:#F7F5F0;
+  letter-spacing:0.03em;line-height:1.1;margin-bottom:5px;
+}
+.s-tagline{font-size:10px;letter-spacing:0.13em;color:rgba(247,245,240,0.68);font-weight:300;}
+.s-count{
+  position:absolute;top:14px;right:14px;
+  font-size:9px;letter-spacing:0.12em;
+  color:rgba(247,245,240,0.55);
+  background:rgba(20,18,14,0.25);
+  padding:4px 9px;
+}
+
+/* ── STUDIO VIEW ── */
+.studio-hd{
+  display:flex;align-items:center;gap:12px;
+  padding:1.2rem 1.6rem;
+  border-bottom:0.5px solid var(--sand);
+}
+.back-btn{
+  background:none;border:none;cursor:pointer;
+  color:var(--oak);font-family:'DM Sans',sans-serif;
+  font-size:10.5px;letter-spacing:0.12em;
+  display:flex;align-items:center;gap:4px;padding:0;
+}
+.back-btn i{font-size:15px;}
+.s-view-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;font-weight:300;letter-spacing:0.08em;
+}
+
+/* GALLERY */
+.gal-wrap{overflow:hidden;position:relative;user-select:none;}
+.gal-track{display:flex;transition:transform 0.42s cubic-bezier(0.25,0.46,0.45,0.94);will-change:transform;}
+.gal-slide{min-width:100%;}
+
+.gal-img{
+  width:100%;height:72vw;max-height:500px;
+  object-fit:cover;display:block;background:var(--mist);
+}
+.gal-ph{
+  width:100%;height:72vw;max-height:500px;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.gal-info{
+  padding:1.3rem 1.6rem 1.6rem;
+  border-bottom:0.5px solid var(--sand);
+}
+.gal-fn{
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;font-weight:300;letter-spacing:0.03em;
+  margin-bottom:0.75rem;line-height:1.2;
+}
+.gal-desc{font-size:12.5px;line-height:1.88;color:var(--soft);font-weight:300;}
+.gal-mat{
+  margin-top:1rem;
+  font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--oak);
+}
+
+/* NAV */
+.gal-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.95rem 1.6rem;
+  border-bottom:0.5px solid var(--sand);
+}
+.dots{display:flex;gap:6px;align-items:center;}
+.dot{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--sand);transition:all 0.28s;
+}
+.dot.on{background:var(--oak);width:20px;border-radius:2.5px;}
+.arrows{display:flex;gap:8px;}
+.arr{
+  width:36px;height:36px;border:0.5px solid var(--sand);
+  background:none;cursor:pointer;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color 0.2s,color 0.2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.arr:active{border-color:var(--oak);color:var(--oak);}
+.arr i{font-size:16px;}
+
+/* ABOUT + INQUIRY */
+.s-about{
+  padding:1.4rem 1.6rem 1.2rem;
+  border-bottom:0.5px solid var(--sand);
+  display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;
+}
+.s-about-txt{font-size:11.5px;line-height:1.85;color:var(--soft);font-weight:300;flex:1;}
+.s-ig{font-size:9.5px;letter-spacing:0.1em;color:var(--oak);white-space:nowrap;padding-top:2px;}
+
+.inquiry{
+  margin:1.2rem 1.6rem 2rem;
+  border:0.5px solid var(--sand);
+  padding:1rem 1.3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:border-color 0.25s;
+  -webkit-tap-highlight-color:transparent;
+}
+.inquiry:active{border-color:var(--oak);}
+.inq-label{font-size:9.5px;letter-spacing:0.2em;text-transform:uppercase;}
+.inq-icon{font-size:15px;color:var(--oak);}
+
+/* FOOTER */
+.tp-ft{
+  padding:1.6rem;
+  border-top:0.5px solid var(--sand);
+  text-align:center;
+}
+.ft-txt{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-size:12px;color:var(--sand);letter-spacing:0.08em;
+}
+</style>
+</head>
+<body>
+
+<header class="tp-hd">
+  <div class="tp-logo">tree<em>poal</em></div>
+  <div class="tp-sub">나무의 가능성</div>
+</header>
+
+<!-- MAIN -->
+<div class="view active" id="v-main">
+  <div class="eyebrow">Curated Wood Studios</div>
+  <div class="studio-list" id="studio-list"></div>
+  <footer class="tp-ft"><div class="ft-txt">오래 곁에 두고 쓸 수 있는 가구들과 아름다운 가구를 만드는 공방 & 브랜드</div></footer>
+</div>
+
+<!-- STUDIO -->
+<div class="view" id="v-studio">
+  <div class="studio-hd">
+    <button class="back-btn" onclick="goBack()">
+      <i class="ti ti-arrow-left"></i> Studios
+    </button>
+    <div class="s-view-name" id="sv-name"></div>
+  </div>
+  <div class="gal-wrap" id="gal-wrap">
+    <div class="gal-track" id="gal-track"></div>
+  </div>
+  <div class="gal-nav">
+    <div class="dots" id="gal-dots"></div>
+    <div class="arrows">
+      <button class="arr" onclick="prev()" aria-label="이전"><i class="ti ti-arrow-left"></i></button>
+      <button class="arr" onclick="next()" aria-label="다음"><i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+  <div class="s-about">
+    <div class="s-about-txt" id="sv-about"></div>
+    <div class="s-ig" id="sv-ig"></div>
+  </div>
+  <div class="inquiry" onclick="goInquiry()">
+    <span class="inq-label">입점 · 문의하기</span>
+    <i class="ti ti-arrow-right inq-icon"></i>
+  </div>
+</div>
+
+<script>
+const studios=[
+  {
+    name:'thatkind furniture',
+    tagline:'쓰이는 순간을 생각하는 가구',
+    about:'무언가를 단정하기보다, 누군가의 기억 속에 편안하게 자리 잡기를 바라는 겸손하면서도 묵직한 브랜드. 가구 자체로 기억되기보다 사용하는 사람의 일상이 함께 기억되길 바랍니다.',
+    ig:'@thatkind_furniture',
+    color:'#B8A990',
+    pieces:[
+      {name:'Windsor Chair',desc:'너도밤나무 원목을 전통 체어메이킹 방식으로 제작. 등받이의 가는 살들이 공간에 리듬을 만들어냅니다. 오일 피니시로 나뭇결을 그대로 살렸습니다.',mat:'너도밤나무 · 천연 오일 피니시'},
+      {name:'Round Dining Table',desc:'직경 110cm의 원형 테이블. 유기적인 상판이 식사하는 사람들을 자연스럽게 모아줍니다. 다리와 상판의 접합부가 구조적으로도 아름답습니다.',mat:'비치목 · 월넛 오일'},
+      {name:'Sideboard No.2',desc:'황색과 오렌지의 대비가 강렬한 사이드보드. 색은 과감하지만 형태는 절제되어 있습니다. 공간의 포인트가 되는 가구입니다.',mat:'오크 원목 · 수성 도료'}
+    ]
+  },
+  {
+    name:'JLOG',
+    tagline:'고요한 힘이 담긴 가구',
+    about:'누군가의 손이 오래 닿은 것처럼 부드럽고, 조용한 사진 속에서도 나무의 온기가 느껴지는 가구를 만드는 1인 우드 스튜디오. 인스타그램에 한 편씩 올리는 가구들이 마치 일기를 쓰듯 일상을 말합니다.',
+    ig:'@jlog__',
+    color:'#8A7A64',
+    pieces:[
+      {name:'Cabinet with Glass',desc:'월넛 프레임에 물결 유리를 결합한 캐비닛. 닫혀 있어도 안이 보이는 듯한, 열려 있어도 숨겨지는 듯한 절묘한 투명도. 1인 공방에서 나올 수 있는 섬세함의 극치입니다.',mat:'블랙 월넛 · 물결 유리'},
+      {name:'Rolling Workstation',desc:'바퀴가 달린 이동식 작업대. 서랍 4개와 오픈 선반을 결합해 실용적이면서도 공간 어디서나 자연스럽게 어울립니다.',mat:'오크 원목 · 캐스터'},
+      {name:'Tall Wardrobe',desc:'단순한 두 짝 여닫이 장. 황동 손잡이 하나만으로 완성되는 디자인. 작은 공간에도 위압감 없이 높이감을 줍니다.',mat:'블랙 체리 · 황동 핸들'}
+    ]
+  },
+  {
+    name:'GHGM',
+    tagline:'세월이 흐를수록 가치가 깊어지는 가구',
+    about:'쉽게 만들어지고 쉽게 버려지는 물건이 아니라, 세월이 흐를수록 가치가 깊어지는 가구를 좋은 손과 좋은 마음으로 담는 국내 대표적인 우드 스튜디오.',
+    ig:'@ghgm_goodhandgoodmind',
+    color:'#6E6050',
+    pieces:[
+      {name:'Mushroom Table',desc:'월넛 솔리드를 통째로 깎아 만든 원형 테이블. 버섯을 닮은 단순한 형태지만 나이테의 흐름이 만드는 패턴은 세상에 단 하나입니다.',mat:'블랙 월넛 솔리드'},
+      {name:'Tall Chest',desc:'단풍나무와 월넛의 대비로 완성된 5단 서랍장. 밝은 단풍과 어두운 프레임의 조합이 단순하지만 강렬합니다. 서랍 하나하나의 피팅이 완벽합니다.',mat:'하드 메이플 · 블랙 월넛'},
+      {name:'Low Coffee Table',desc:'자연스러운 엣지를 살린 원형 커피 테이블. 표면에 반사되는 빛의 방향이 계절마다 다릅니다. 오래 두고 싶어지는 가구입니다.',mat:'체리 원목 · 오일 피니시'}
+    ]
+  },
+  {
+    name:'Mobel jay',
+    tagline:'본래 가진 형태와 모습을 보존하는 가구',
+    about:'자연스러운 선이 곧 디자인이 되는 가구를 전통적인 가구제작 방법으로 만드는 우드 스튜디오. 빠른 제작보다 재료와의 대화를 먼저 합니다.',
+    ig:'@mobel_jay',
+    color:'#A09078',
+    pieces:[
+      {name:'Study Chair',desc:'비치목의 자연스러운 곡선을 살린 스터디 체어. 등받이의 기울기가 오래 앉아도 피로하지 않도록 계산되어 있습니다.',mat:'비치목 · 천연 가죽'},
+      {name:'Round Dining',desc:'원형 상판과 4개의 다리가 만나는 지점이 이 테이블의 전부입니다. 군더더기 없는 구조가 공간을 여유롭게 합니다.',mat:'월넛 원목'},
+      {name:'Paper Cord Chair',desc:'페이퍼 코드로 엮은 좌판이 특징인 사이드 체어. 한 땀 한 땀 손으로 엮어 만드는 좌판은 시간이 걸리지만 그 정성이 앉는 사람에게 전달됩니다.',mat:'오크 · 페이퍼 코드'}
+    ]
+  },
+  {
+    name:'GROUNDOT',
+    tagline:'일상에 깊이를 더하는 본질적인 디자인',
+    about:'전통 공예 기술의 섬세함과 현대적인 제작 방식의 효율성을 결합하여, 실용적이면서도 예술적인 가치를 지닌 제품을 만들어내는 가구 스튜디오.',
+    ig:'@groundot',
+    color:'#5C5044',
+    pieces:[
+      {name:'Black Chair',desc:'흑단색으로 도장한 원목 체어. 극도로 절제된 형태가 공간에서 강한 존재감을 발휘합니다. 장식 없이 구조만으로 아름다운 가구입니다.',mat:'애쉬 원목 · 블랙 도장'},
+      {name:'Woven Seat Chair',desc:'월넛 프레임에 레드와 화이트 가죽을 체커보드 패턴으로 엮은 체어. 전통 위빙 기법과 현대적 컬러의 결합. 뒤에서 보는 모습이 더 아름다운 의자입니다.',mat:'블랙 월넛 · 레더 웨빙'},
+      {name:'Dining Table',desc:'교차 형태의 하부 구조가 특징인 다이닝 테이블. 상판과 하부의 대비되는 색감이 공간에 리듬을 줍니다.',mat:'월넛 · 화이트오크'}
+    ]
+  }
+];
+
+let cur=null,slide=0,sx=0,drag=false;
+
+function renderMain(){
+  document.getElementById('studio-list').innerHTML=studios.map((s,i)=>`
+    <div class="s-card" onclick="open_(${i})">
+      <div class="s-card-ph" style="background:${s.color}22;height:56vw;max-height:340px;">
+        <i class="ti ti-trees" style="font-size:56px;color:${s.color};opacity:0.28;"></i>
+      </div>
+      <div class="s-card-overlay">
+        <div class="s-name">${s.name}</div>
+        <div class="s-tagline">${s.tagline}</div>
+      </div>
+      <div class="s-count">${s.pieces.length} pieces</div>
+    </div>
+  `).join('');
+}
+
+function open_(i){
+  cur=i; slide=0;
+  const s=studios[i];
+  document.getElementById('sv-name').textContent=s.name;
+  document.getElementById('sv-about').textContent=s.about;
+  document.getElementById('sv-ig').textContent=s.ig;
+  renderGal();
+  document.getElementById('v-main').classList.remove('active');
+  document.getElementById('v-studio').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function renderGal(){
+  const s=studios[cur];
+  document.getElementById('gal-track').innerHTML=s.pieces.map((p,i)=>`
+    <div class="gal-slide">
+      <div class="gal-ph" style="background:${s.color}18;">
+        <i class="ti ti-armchair-2" style="font-size:64px;color:${s.color};opacity:0.25;"></i>
+      </div>
+      <div class="gal-info">
+        <div class="gal-fn">${p.name}</div>
+        <div class="gal-desc">${p.desc}</div>
+        <div class="gal-mat">${p.mat}</div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('gal-dots').innerHTML=s.pieces.map((_,i)=>
+    `<div class="dot${i===0?' on':''}" id="d${i}"></div>`
+  ).join('');
+  updateGal();
+  swipe();
+}
+
+function updateGal(){
+  document.getElementById('gal-track').style.transform=`translateX(-${slide*100}%)`;
+  studios[cur].pieces.forEach((_,i)=>{
+    const d=document.getElementById('d'+i);
+    if(d) d.className='dot'+(i===slide?' on':'');
+  });
+}
+function next(){if(slide<studios[cur].pieces.length-1){slide++;updateGal();}}
+function prev(){if(slide>0){slide--;updateGal();}}
+
+function swipe(){
+  const w=document.getElementById('gal-wrap');
+  w.ontouchstart=e=>{sx=e.touches[0].clientX;drag=true;};
+  w.ontouchend=e=>{
+    if(!drag)return;
+    const d=sx-e.changedTouches[0].clientX;
+    if(Math.abs(d)>40){d>0?next():prev();}
+    drag=false;
+  };
+}
+
+function goBack(){
+  document.getElementById('v-studio').classList.remove('active');
+  document.getElementById('v-main').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function goInquiry(){
+  alert('입점 문의: treepoal@gmail.com\n\n공방 대표님, 반갑습니다.\n함께 만들어가고 싶은 공간이 있습니다.');
+}
+
+renderMain();
+</script>
+</body>
+</html>
