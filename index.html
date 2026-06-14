@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="theme-color" content="#F5F4F0"/>
+<title>TREEPOAL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#F5F4F0;
+  --ink:#1A1916;
+  --oak:#8A7254;
+  --sand:#D0C8B8;
+  --soft:#6A6358;
+}
+html,body{background:var(--bg);color:var(--ink);-webkit-tap-highlight-color:transparent;}
+body{font-family:'DM Sans',sans-serif;min-height:100vh;}
+
+.view{display:none;}
+.view.active{display:block;}
+
+/* HEADER */
+.tp-hd{
+  padding:1.6rem 1.6rem 1.4rem;
+  border-bottom:0.5px solid var(--sand);
+  position:sticky;top:0;background:var(--bg);z-index:10;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.tp-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;font-weight:500;
+  letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--ink);text-align:center;display:block;width:100%;
+}
+.hd-menu{
+  position:absolute;left:1.6rem;
+  background:none;border:none;cursor:pointer;color:var(--ink);padding:0;
+}
+.hd-menu i{font-size:20px;}
+.hd-inquiry{
+  position:absolute;right:1.6rem;
+  background:none;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--oak);padding:0;
+}
+
+/* MAIN */
+.eyebrow{
+  padding:1.8rem 1.6rem 1rem;
+  font-family:'Cormorant Garamond',serif;
+  font-size:10px;letter-spacing:0.3em;
+  text-transform:uppercase;color:var(--soft);text-align:center;
+}
+.studio-list{display:flex;flex-direction:column;}
+.s-card{position:relative;cursor:pointer;overflow:hidden;border-bottom:0.5px solid var(--sand);}
+.s-card-ph{width:100%;height:60vw;max-height:380px;display:flex;align-items:center;justify-content:center;}
+.s-card-img{width:100%;height:60vw;max-height:380px;object-fit:cover;display:block;filter:brightness(0.88);transition:filter 0.4s;}
+.s-card:active .s-card-img{filter:brightness(0.72);}
+.s-card-overlay{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;
+  padding:1.6rem 1.8rem;
+  background:linear-gradient(to top,rgba(18,16,12,0.62) 0%,transparent 55%);
+}
+.s-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;
+  color:#F5F4F0;line-height:1.1;margin-bottom:6px;
+}
+.s-tagline{font-size:9.5px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,244,240,0.62);font-weight:300;}
+.s-count{
+  position:absolute;top:14px;right:14px;
+  font-size:8.5px;letter-spacing:0.16em;text-transform:uppercase;
+  color:rgba(245,244,240,0.5);background:rgba(18,16,12,0.22);padding:4px 10px;
+}
+
+/* STUDIO VIEW */
+.studio-hd{
+  padding:1.3rem 1.6rem;border-bottom:0.5px solid var(--sand);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.back-btn{
+  position:absolute;left:1.6rem;
+  background:none;border:none;cursor:pointer;color:var(--soft);
+  font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;
+  display:flex;align-items:center;gap:4px;padding:0;
+}
+.back-btn i{font-size:14px;}
+.s-view-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--ink);text-align:center;
+}
+
+/* GALLERY */
+.gal-wrap{overflow:hidden;position:relative;user-select:none;}
+.gal-track{display:flex;transition:transform 0.44s cubic-bezier(0.25,0.46,0.45,0.94);will-change:transform;}
+.gal-slide{min-width:100%;}
+.gal-ph{width:100%;height:76vw;max-height:520px;display:flex;align-items:center;justify-content:center;}
+.gal-img{width:100%;height:76vw;max-height:520px;object-fit:cover;display:block;}
+
+.gal-info{padding:1.4rem 1.8rem 0.8rem;border-bottom:0.5px solid var(--sand);}
+.gal-num{font-size:8.5px;letter-spacing:0.22em;text-transform:uppercase;color:var(--sand);margin-bottom:6px;}
+.gal-fn{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;
+  margin-bottom:0.9rem;line-height:1.2;color:var(--ink);
+}
+.gal-fn::after{content:' /';color:var(--sand);}
+.gal-desc{font-size:12.5px;line-height:1.9;color:var(--soft);font-weight:300;}
+.gal-mat{margin-top:1rem;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--oak);padding-bottom:1.4rem;}
+
+/* NAV */
+.gal-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 1.8rem;border-bottom:0.5px solid var(--sand);
+}
+.dots{display:flex;gap:7px;align-items:center;}
+.dot{width:4px;height:4px;border-radius:50%;background:var(--sand);transition:all 0.28s;}
+.dot.on{background:var(--ink);width:22px;border-radius:2px;}
+.arrows{display:flex;gap:8px;}
+.arr{
+  width:36px;height:36px;border:0.5px solid var(--sand);
+  background:none;cursor:pointer;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color 0.2s;-webkit-tap-highlight-color:transparent;
+}
+.arr:active{border-color:var(--ink);}
+.arr i{font-size:15px;}
+
+/* ABOUT */
+.s-about{padding:1.6rem 1.8rem 1.4rem;border-bottom:0.5px solid var(--sand);}
+.s-about-label{font-size:8.5px;letter-spacing:0.26em;text-transform:uppercase;color:var(--oak);margin-bottom:0.8rem;}
+.s-about-txt{font-size:12px;line-height:1.88;color:var(--soft);font-weight:300;}
+.s-ig{margin-top:1rem;font-size:9px;letter-spacing:0.14em;color:var(--sand);}
+
+/* INQUIRY BTN */
+.inquiry{
+  margin:1.4rem 1.8rem 2.2rem;
+  border:0.5px solid var(--ink);padding:1.1rem 1.4rem;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;transition:background 0.2s;-webkit-tap-highlight-color:transparent;
+}
+.inquiry:active{background:var(--ink);}
+.inquiry:active .inq-label,.inquiry:active .inq-icon{color:var(--bg);}
+.inq-label{font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:var(--ink);}
+.inq-icon{font-size:14px;color:var(--ink);}
+
+/* FOOTER */
+.tp-ft{padding:2.4rem 1.8rem;border-top:0.5px solid var(--sand);text-align:center;}
+.ft-txt{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:300;color:var(--soft);line-height:1.9;letter-spacing:0.04em;}
+
+/* ── INQUIRY VIEW ── */
+.inq-hd{
+  padding:1.3rem 1.6rem;border-bottom:0.5px solid var(--sand);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.inq-back{
+  position:absolute;left:1.6rem;
+  background:none;border:none;cursor:pointer;color:var(--soft);
+  font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;
+  display:flex;align-items:center;gap:4px;padding:0;
+}
+.inq-back i{font-size:14px;}
+.inq-view-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--ink);text-align:center;
+}
+
+.inq-body{padding:2rem 1.8rem;}
+.inq-intro{
+  font-size:12.5px;line-height:1.9;color:var(--soft);
+  font-weight:300;margin-bottom:2rem;
+  font-family:'Cormorant Garamond',serif;font-size:15px;
+}
+.inq-email-row{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:2rem;padding-bottom:1.4rem;
+  border-bottom:0.5px solid var(--sand);
+}
+.inq-email-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--oak);}
+.inq-email-addr{font-size:12px;color:var(--ink);letter-spacing:0.04em;}
+
+.inq-field-label{
+  font-size:9px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--oak);margin-bottom:8px;display:block;
+}
+.inq-input{
+  font-family:'DM Sans',sans-serif;font-size:13px;
+  width:100%;border:0.5px solid var(--sand);
+  background:var(--bg);padding:10px 12px;
+  color:var(--ink);outline:none;
+  transition:border-color 0.2s;margin-bottom:1.2rem;
+  border-radius:0;
+}
+.inq-input:focus{border-color:var(--oak);}
+.inq-input::placeholder{color:var(--sand);}
+.inq-textarea{
+  font-family:'DM Sans',sans-serif;font-size:13px;
+  width:100%;border:0.5px solid var(--sand);
+  background:var(--bg);padding:10px 12px;
+  color:var(--ink);outline:none;resize:none;
+  min-height:140px;line-height:1.7;
+  transition:border-color 0.2s;margin-bottom:1.6rem;
+  border-radius:0;
+}
+.inq-textarea:focus{border-color:var(--oak);}
+.inq-textarea::placeholder{color:var(--sand);}
+
+.inq-submit{
+  width:100%;padding:1rem;
+  background:var(--ink);color:var(--bg);
+  border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  font-size:9.5px;letter-spacing:0.22em;text-transform:uppercase;
+  transition:background 0.2s;
+}
+.inq-submit:active{background:var(--oak);}
+
+.inq-note{
+  margin-top:1.2rem;text-align:center;
+  font-size:10px;color:var(--sand);letter-spacing:0.08em;
+  line-height:1.7;
+}
+.inq-note a{color:var(--oak);text-decoration:none;}
+
+.inq-success{
+  display:none;text-align:center;padding:3rem 1rem;
+}
+.inq-success-icon{font-size:36px;color:var(--oak);margin-bottom:1rem;}
+.inq-success-msg{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:300;color:var(--ink);
+  line-height:1.6;
+}
+</style>
+</head>
+<body>
+
+<header class="tp-hd">
+  <button class="hd-menu" aria-label="메뉴"><i class="ti ti-menu-2"></i></button>
+  <div class="tp-logo">Treepoal</div>
+  <button class="hd-inquiry" onclick="openInquiry()">문의</button>
+</header>
+
+<!-- MAIN -->
+<div class="view active" id="v-main">
+  <div class="eyebrow">Curated Wood Studios</div>
+  <div class="studio-list" id="studio-list"></div>
+  <footer class="tp-ft">
+    <div class="ft-txt">오래 곁에 두고 쓸 수 있는 가구를 만드는<br>공방과 브랜드를 만날 수 있는 곳.</div>
+  </footer>
+</div>
+
+<!-- STUDIO -->
+<div class="view" id="v-studio">
+  <div class="studio-hd">
+    <button class="back-btn" onclick="goBack()"><i class="ti ti-arrow-left"></i> Studios</button>
+    <div class="s-view-name" id="sv-name"></div>
+  </div>
+  <div class="gal-wrap" id="gal-wrap">
+    <div class="gal-track" id="gal-track"></div>
+  </div>
+  <div class="gal-nav">
+    <div class="dots" id="gal-dots"></div>
+    <div class="arrows">
+      <button class="arr" onclick="prev()" aria-label="이전"><i class="ti ti-arrow-left"></i></button>
+      <button class="arr" onclick="next()" aria-label="다음"><i class="ti ti-arrow-right"></i></button>
+    </div>
+  </div>
+  <div class="s-about">
+    <div class="s-about-label">About</div>
+    <div class="s-about-txt" id="sv-about"></div>
+    <div class="s-ig" id="sv-ig"></div>
+  </div>
+  <div class="inquiry" onclick="openInquiry()">
+    <span class="inq-label">입점 · 문의하기</span>
+    <i class="ti ti-arrow-right inq-icon"></i>
+  </div>
+</div>
+
+<!-- INQUIRY VIEW -->
+<div class="view" id="v-inquiry">
+  <div class="inq-hd">
+    <button class="inq-back" onclick="closeInquiry()"><i class="ti ti-arrow-left"></i> Back</button>
+    <div class="inq-view-title">문의하기</div>
+  </div>
+  <div class="inq-body">
+    <div class="inq-intro">
+      공방 입점, 가구 구매 문의, 또는 treepoal에 대한 이야기를<br>편하게 남겨주세요.
+    </div>
+
+    <div class="inq-email-row">
+      <span class="inq-email-label">Email</span>
+      <a class="inq-email-addr" href="mailto:treepoal.furniture@gmail.com">treepoal.furniture@gmail.com</a>
+    </div>
+
+    <div id="inq-form">
+      <label class="inq-field-label">이름 또는 브랜드명</label>
+      <input class="inq-input" id="inq-name" type="text" placeholder="홍길동 / Studio Name"/>
+
+      <label class="inq-field-label">연락처 (이메일 또는 전화)</label>
+      <input class="inq-input" id="inq-contact" type="text" placeholder="email@example.com"/>
+
+      <label class="inq-field-label">문의 내용</label>
+      <textarea class="inq-textarea" id="inq-msg" placeholder="입점 문의, 가구 구매, 협업 제안 등 자유롭게 작성해주세요."></textarea>
+
+      <button class="inq-submit" onclick="submitInquiry()">문의 보내기</button>
+
+      <div class="inq-note">
+        또는 직접 메일로 보내주세요<br>
+        <a href="mailto:treepoal.furniture@gmail.com">treepoal.furniture@gmail.com</a>
+      </div>
+    </div>
+
+    <div class="inq-success" id="inq-success">
+      <div class="inq-success-icon"><i class="ti ti-check"></i></div>
+      <div class="inq-success-msg">
+        문의가 접수되었습니다.<br>
+        빠른 시일 내에 답변드리겠습니다.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const studios=[
+  {
+    name:'Studio Duda',
+    tagline:'반짝이는 아이디어를 가구에 담아내는 곳',
+    about:'4명의 작업자들이 오래도록 쓰일, 가치 있는 가구를 만들겠다는 마음으로 모여 출발한 스튜디오 두다. 체리 원목의 따뜻한 색감과 컬러 패브릭의 조합으로 생활 속에 기쁨을 더하는 가구를 만듭니다.',
+    ig:'@studioduda',
+    color:'#B8A990',
+    cover:'images/studioduda/duda_01.jpg',
+    pieces:[
+      {id:'duda_01',name:'Arm Chair',desc:'체리 원목 프레임에 컬러 패브릭을 결합한 암체어. 단단하면서도 부드러운 앉음새가 특징입니다.',mat:'체리 원목 · 패브릭',img:'images/studioduda/duda_01.jpg'},
+      {id:'duda_02',name:'Round Table',desc:'원형 상판이 자연스럽게 사람들을 모아주는 다이닝 테이블. 월넛의 깊은 색감이 공간을 따뜻하게 합니다.',mat:'블랙 월넛',img:'images/studioduda/duda_02.jpg'},
+      {id:'duda_03',name:'Dining Set',desc:'직선과 곡선이 조화를 이루는 다이닝 세트. 자연광 아래 더욱 아름답습니다.',mat:'체리 원목',img:'images/studioduda/duda_03.jpg'},
+      {id:'duda_04',name:'Slab Table',desc:'라이브 엣지를 살린 슬랩 테이블. 나무가 원래 가진 형태 그대로를 담았습니다.',mat:'국내산 원목 · 오일 피니시',img:'images/studioduda/duda_04.jpg'},
+      {id:'duda_05',name:'Desk',desc:'패널 다리가 인상적인 심플한 데스크. 공간 어디에 두어도 자연스럽게 어울립니다.',mat:'메이플 원목',img:'images/studioduda/duda_05.jpg'},
+      {id:'duda_06',name:'Round Board',desc:'월넛으로 제작된 원형 도마. 식탁 위의 오브제가 됩니다.',mat:'블랙 월넛',img:'images/studioduda/duda_06.jpg'},
+      {id:'duda_07',name:'Table & Light',desc:'원형 테이블과 자연광의 조합. 가구는 빛과 함께 완성됩니다.',mat:'월넛 원목',img:'images/studioduda/duda_07.jpg'},
+      {id:'duda_08',name:'Live Edge Detail',desc:'슬랩 원목의 결 클로즈업. 자연이 만든 패턴은 두 개가 같지 않습니다.',mat:'원목 슬랩',img:'images/studioduda/duda_08.jpg'},
+      {id:'duda_09',name:'Table Base Detail',desc:'테이블 하부 구조 디테일. 접합부의 정직한 아름다움.',mat:'메이플 원목',img:'images/studioduda/duda_09.jpg'},
+      {id:'duda_10',name:'Stool',desc:'원형 상판의 단순한 스툴. 테이블 옆에 놓이면 비로소 완성됩니다.',mat:'메이플 원목',img:'images/studioduda/duda_10.jpg'},
+      {id:'duda_11',name:'Table Side',desc:'사이드뷰에서 보이는 테이블의 구조. 군더더기 없는 선.',mat:'원목',img:'images/studioduda/duda_11.jpg'}
+    ]
+  },
+  {
+    name:'JLOG',
+    tagline:'고요한 힘이 담긴 가구',
+    about:'누군가의 손이 오래 닿은 것처럼 부드럽고, 조용한 사진 속에서도 나무의 온기가 느껴지는 가구를 만드는 1인 우드 스튜디오. 인스타그램에 한 편씩 올리는 가구들이 마치 일기를 쓰듯 일상을 말합니다.',
+    ig:'@jlog__',
+    color:'#8A7A64',
+    cover:'images/jlog/jlog_01.jpg',
+    pieces:[
+      {id:'jlog_01',name:'Chest of Drawers',desc:'수납과 미감을 동시에 담은 서랍장. 창가의 자연광 속에서 나뭇결이 살아납니다.',mat:'원목 · 오일 피니시',img:'images/jlog/jlog_01.jpg'},
+      {id:'jlog_02',name:'Writing Desk',desc:'서랍이 달린 심플한 책상. 낡은 작업실 분위기가 오히려 이 가구를 빛나게 합니다.',mat:'월넛 원목',img:'images/jlog/jlog_02.jpg'},
+      {id:'jlog_03',name:'Tall Cabinet',desc:'두 짝 여닫이 캐비닛. 열면 안이 보이고 닫으면 하나의 면이 되는 구조.',mat:'월넛 원목',img:'images/jlog/jlog_03.jpg'},
+      {id:'jlog_04',name:'Rolling Station',desc:'바퀴 달린 이동식 워크스테이션. 서랍과 오픈 선반의 조합.',mat:'오크 원목 · 캐스터',img:'images/jlog/jlog_04.jpg'},
+      {id:'jlog_05',name:'Wardrobe',desc:'손잡이 없이 나무 결만 남긴 옷장. 절제된 형태의 극치.',mat:'월넛 원목',img:'images/jlog/jlog_05.jpg'},
+      {id:'jlog_06',name:'Black Cabinet',desc:'먹물처럼 깊은 블랙 캐비닛. 황동 자물쇠가 포인트.',mat:'원목 · 흑색 도장 · 황동',img:'images/jlog/jlog_06.jpg'},
+      {id:'jlog_07',name:'Cabinet Pair',desc:'크기가 다른 두 캐비닛이 함께 놓인 풍경. 공간이 리듬을 갖습니다.',mat:'월넛 원목',img:'images/jlog/jlog_07.jpg'},
+      {id:'jlog_08',name:'Kitchen Board',desc:'주방 가구를 직접 만드는 손의 이야기.',mat:'체리 원목 · 황동 손잡이',img:'images/jlog/jlog_08.jpg'},
+      {id:'jlog_09',name:'Sideboard',desc:'물결 유리 도어의 사이드보드. 보이는 듯 보이지 않는 투명도.',mat:'월넛 · 물결 유리 · 황동',img:'images/jlog/jlog_09.jpg'},
+      {id:'jlog_10',name:'Display Cabinet',desc:'유리 위에 백자가 놓인 풍경. 수납이 전시가 됩니다.',mat:'체리 원목 · 유리',img:'images/jlog/jlog_10.jpg'}
+    ]
+  },
+  {
+    name:'Paul & Lina',
+    tagline:'작은 집, 큰 이야기',
+    about:'할리가 미덕인 시대에 느림의 철학으로 공간의 가치를 이야기하는 곳. 당신의 일상에 오랜 시간 함께할 진짜 가구를 만드는 작은 공방이자 브랜드. 나무 패널 공간 속에서 가구는 벽이 되고, 집이 됩니다.',
+    ig:'@paulandlina',
+    color:'#6E6050',
+    cover:'images/paulandlina/pl_01.jpg',
+    pieces:[
+      {id:'pl_01',name:'Shelf Cabinet',desc:'화이트 슬라이딩 도어와 오크 프레임의 조합. 폴앤리나의 공간 철학이 담긴 선반장.',mat:'오크 · 래커 도어',img:'images/paulandlina/pl_01.jpg'},
+      {id:'pl_02',name:'Kitchen Space',desc:'직접 만든 가구로 채운 주방 공간. 가구가 공간이 됩니다.',mat:'오크 · 블랙 스톤',img:'images/paulandlina/pl_02.jpg'},
+      {id:'pl_03',name:'Small Bookshelf',desc:'체리 원목의 소형 책장. 책과 오브제를 위한 공간.',mat:'체리 원목',img:'images/paulandlina/pl_03.jpg'},
+      {id:'pl_04',name:'Study Corner',desc:'벚꽃이 놓인 서재 코너. 공간과 계절이 함께하는 풍경.',mat:'월넛 · 오크',img:'images/paulandlina/pl_04.jpg'},
+      {id:'pl_05',name:'Desk',desc:'베이지 합판으로 만든 넓은 데스크. 공간에 스며드는 색감.',mat:'합판 · 오크',img:'images/paulandlina/pl_05.jpg'},
+      {id:'pl_06',name:'Nook Shelf',desc:'창가 틈새를 채우는 소형 선반. 음악을 위한 공간.',mat:'오크',img:'images/paulandlina/pl_06.jpg'},
+      {id:'pl_07',name:'Marantz & Cabinet',desc:'빈티지 오디오와 수납장의 조합. 취향이 공간을 만듭니다.',mat:'월넛',img:'images/paulandlina/pl_07.jpg'},
+      {id:'pl_08',name:'Kitchen Unit',desc:'슬라이딩 도어 키친 유닛. 정리된 주방을 위한 가구.',mat:'오크 · 블랙 스톤',img:'images/paulandlina/pl_08.jpg'},
+      {id:'pl_09',name:'Dresser',desc:'6단 서랍장. 수납이 인테리어가 됩니다.',mat:'오크',img:'images/paulandlina/pl_09.jpg'},
+      {id:'pl_10',name:'Blue Bookcase',desc:'블루 내부가 인상적인 책장 캐비닛. 컬러로 철학을 표현합니다.',mat:'월넛 · 도료',img:'images/paulandlina/pl_10.jpg'}
+    ]
+  },
+  {
+    name:'Mobel jay',
+    tagline:'본래 가진 형태와 모습을 보존하는 가구',
+    about:'자연스러운 선이 곧 디자인이 되는 가구를 전통적인 가구제작 방법으로 만드는 우드 스튜디오. 빠른 제작보다 재료와의 대화를 먼저 합니다. 자연광이 가구 위에 내려앉는 그 순간을 위해 만듭니다.',
+    ig:'@mobel_jay',
+    color:'#A09078',
+    cover:'images/mobeljay/mobel_01.jpg',
+    pieces:[
+      {id:'mobel_01',name:'Study Chair',desc:'비치목의 자연스러운 곡선을 살린 스터디 체어. 가죽 시트와 나무의 조합이 시간이 지날수록 더 아름다워집니다.',mat:'비치목 · 천연 가죽',img:'images/mobeljay/mobel_01.jpg'},
+      {id:'mobel_02',name:'Round Dining Table',desc:'원형 월넛 다이닝 테이블. 펜던트 조명 아래 사람들이 자연스럽게 모입니다.',mat:'블랙 월넛',img:'images/mobeljay/mobel_02.jpg'},
+      {id:'mobel_03',name:'Rectangular Table',desc:'직사각형 다이닝 테이블. 자연광이 만드는 그림자까지 계산된 비례.',mat:'원목',img:'images/mobeljay/mobel_03.jpg'},
+      {id:'mobel_04',name:'Slab Desk',desc:'창가에 놓인 슬랩 데스크. 빛과 나무가 만나는 순간.',mat:'원목 슬랩',img:'images/mobeljay/mobel_04.jpg'},
+      {id:'mobel_05',name:'Panel Desk',desc:'패널 다리의 심플한 데스크. 공간을 선점하지 않는 가구.',mat:'메이플 원목',img:'images/mobeljay/mobel_05.jpg'},
+      {id:'mobel_06',name:'Round Board Detail',desc:'원형 도마. 나무가 품은 일상의 온기.',mat:'블랙 월넛',img:'images/mobeljay/mobel_06.jpg'},
+      {id:'mobel_07',name:'Table & Pendant',desc:'테이블과 공간의 관계. 모벨제이는 가구보다 공간을 만듭니다.',mat:'원목',img:'images/mobeljay/mobel_07.jpg'},
+      {id:'mobel_08',name:'Live Edge Close-up',desc:'나이테와 옹이가 살아있는 슬랩 원목의 클로즈업.',mat:'원목 슬랩',img:'images/mobeljay/mobel_08.jpg'},
+      {id:'mobel_09',name:'Table Joint Detail',desc:'테이블 하부 접합부 디테일. 구조가 아름다움이 됩니다.',mat:'원목',img:'images/mobeljay/mobel_09.jpg'},
+      {id:'mobel_10',name:'Stool & Slab',desc:'라이브 엣지 테이블 위에서 본 원형 스툴.',mat:'메이플 · 원목 슬랩',img:'images/mobeljay/mobel_10.jpg'},
+      {id:'mobel_11',name:'Table from Side',desc:'측면에서 바라본 테이블. 다리의 비례가 모든 것입니다.',mat:'원목',img:'images/mobeljay/mobel_11.jpg'}
+    ]
+  },
+  {
+    name:'GROUNDOT',
+    tagline:'일상에 깊이를 더하는 본질적인 디자인',
+    about:'전통 공예 기술의 섬세함과 현대적인 제작 방식의 효율성을 결합하여, 실용적이면서도 예술적인 가치를 지닌 제품을 만들어내는 가구 스튜디오. 그라운닷의 가구는 오브제입니다.',
+    ig:'@groundot',
+    color:'#5C5044',
+    cover:'images/groundot/ground_01.jpg',
+    pieces:[
+      {id:'ground_01',name:'Sideboard',desc:'테라코타 바닥 위의 슬라이딩 사이드보드. 체리 색감이 공간 전체를 따뜻하게 합니다.',mat:'체리 원목',img:'images/groundot/ground_01.jpg'},
+      {id:'ground_02',name:'Arm Chair Pair',desc:'컬러 패브릭 쿠션의 암체어 두 점. 형태는 같고 색은 다릅니다.',mat:'체리 원목 · 패브릭',img:'images/groundot/ground_02.jpg'},
+      {id:'ground_03',name:'CD Cabinet',desc:'LP/CD를 위한 수납 캐비닛. 취향을 보관하는 가구.',mat:'오크 원목 · 유리',img:'images/groundot/ground_03.jpg'},
+      {id:'ground_04',name:'Dining Set',desc:'다이닝 테이블과 체어의 세트. 블루 쿠션이 포인트.',mat:'체리 원목 · 패브릭',img:'images/groundot/ground_04.jpg'},
+      {id:'ground_05',name:'Tall Shelf',desc:'오픈 선반과 수납이 결합된 키 큰 선반장.',mat:'체리 원목',img:'images/groundot/ground_05.jpg'},
+      {id:'ground_06',name:'Desk & Chair',desc:'심플한 데스크와 페이퍼 코드 체어. 절제의 미학.',mat:'체리 원목 · 페이퍼 코드',img:'images/groundot/ground_06.jpg'},
+      {id:'ground_07',name:'Color Cabinet',desc:'그린 컬러 슬라이딩 도어 캐비닛. 컬러가 가구의 언어가 됩니다.',mat:'오크 원목 · 래커',img:'images/groundot/ground_07.jpg'},
+      {id:'ground_08',name:'Clothes Rack',desc:'체리 원목 옷걸이대. 구조 자체가 디자인.',mat:'체리 원목',img:'images/groundot/ground_08.jpg'},
+      {id:'ground_09',name:'Side Chair',desc:'체커 위빙 좌판의 사이드 체어. 빛이 만드는 그림자가 함께합니다.',mat:'체리 원목 · 코튼 웨빙',img:'images/groundot/ground_09.jpg'},
+      {id:'ground_10',name:'Double Rack',desc:'더블 레일 옷걸이대. 단순한 구조의 완성.',mat:'메이플 원목',img:'images/groundot/ground_10.jpg'},
+      {id:'ground_11',name:'Display Cabinet',desc:'유리 슬라이딩 도어 진열장. 오브제를 위한 공간.',mat:'오크 원목 · 유리',img:'images/groundot/ground_11.jpg'},
+      {id:'ground_12',name:'Magazine Rack',desc:'잡지와 책을 위한 그리드 선반. 콘텐츠가 장식이 됩니다.',mat:'오크 원목',img:'images/groundot/ground_12.jpg'},
+      {id:'ground_13',name:'Color Chair',desc:'옐로우 스트라이프 패브릭 체어. 자연광 속에서 더 선명합니다.',mat:'애쉬 원목 · 패브릭',img:'images/groundot/ground_13.jpg'},
+      {id:'ground_14',name:'Glass Cabinet',desc:'유리 도어 캐비닛. 비어있어도 아름다운 구조.',mat:'오크 원목 · 유리',img:'images/groundot/ground_14.jpg'},
+      {id:'ground_15',name:'Round Table',desc:'원형 다이닝 테이블. 다리의 비례가 공간을 살립니다.',mat:'체리 원목',img:'images/groundot/ground_15.jpg'}
+    ]
+  }
+];
+
+let cur=null,slide=0,sx=0,drag=false;
+
+function renderMain(){
+  document.getElementById('studio-list').innerHTML=studios.map((s,i)=>`
+    <div class="s-card" onclick="open_(${i})">
+      ${s.cover
+        ? `<img class="s-card-img" src="${s.cover}" alt="${s.name}" loading="lazy"/>`
+        : `<div class="s-card-ph" style="background:${s.color}20;height:60vw;max-height:380px;"><i class="ti ti-trees" style="font-size:52px;color:${s.color};opacity:0.22;"></i></div>`
+      }
+      <div class="s-card-overlay">
+        <div class="s-name">${s.name}</div>
+        <div class="s-tagline">${s.tagline}</div>
+      </div>
+      <div class="s-count">${s.pieces.length} works</div>
+    </div>
+  `).join('');
+}
+
+function open_(i){
+  cur=i;slide=0;
+  const s=studios[i];
+  document.getElementById('sv-name').textContent=s.name;
+  document.getElementById('sv-about').textContent=s.about;
+  document.getElementById('sv-ig').textContent=s.ig;
+  renderGal();
+  document.getElementById('v-main').classList.remove('active');
+  document.getElementById('v-studio').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function renderGal(){
+  const s=studios[cur];
+  document.getElementById('gal-track').innerHTML=s.pieces.map((p,i)=>`
+    <div class="gal-slide">
+      ${p.img
+        ? `<img class="gal-img" src="${p.img}" alt="${p.name}" loading="lazy"/>`
+        : `<div class="gal-ph" style="background:${s.color}15;height:76vw;max-height:520px;"><i class="ti ti-armchair-2" style="font-size:60px;color:${s.color};opacity:0.22;"></i></div>`
+      }
+      <div class="gal-info">
+        <div class="gal-num">${p.id}</div>
+        <div class="gal-fn">${p.name}</div>
+        <div class="gal-desc">${p.desc}</div>
+        <div class="gal-mat">${p.mat}</div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('gal-dots').innerHTML=s.pieces.map((_,i)=>
+    `<div class="dot${i===0?' on':''}" id="d${i}"></div>`
+  ).join('');
+  updateGal();
+  swipe();
+}
+
+function updateGal(){
+  document.getElementById('gal-track').style.transform=`translateX(-${slide*100}%)`;
+  studios[cur].pieces.forEach((_,i)=>{
+    const d=document.getElementById('d'+i);
+    if(d) d.className='dot'+(i===slide?' on':'');
+  });
+}
+function next(){if(slide<studios[cur].pieces.length-1){slide++;updateGal();}}
+function prev(){if(slide>0){slide--;updateGal();}}
+
+function swipe(){
+  const w=document.getElementById('gal-wrap');
+  w.ontouchstart=e=>{sx=e.touches[0].clientX;drag=true;};
+  w.ontouchend=e=>{
+    if(!drag)return;
+    const d=sx-e.changedTouches[0].clientX;
+    if(Math.abs(d)>40){d>0?next():prev();}
+    drag=false;
+  };
+}
+
+function goBack(){
+  document.getElementById('v-studio').classList.remove('active');
+  document.getElementById('v-main').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function openInquiry(){
+  document.getElementById('v-main').classList.remove('active');
+  document.getElementById('v-studio').classList.remove('active');
+  document.getElementById('v-inquiry').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function closeInquiry(){
+  document.getElementById('v-inquiry').classList.remove('active');
+  if(cur!==null){
+    document.getElementById('v-studio').classList.add('active');
+  } else {
+    document.getElementById('v-main').classList.add('active');
+  }
+  window.scrollTo(0,0);
+}
+
+function submitInquiry(){
+  const name=document.getElementById('inq-name').value.trim();
+  const contact=document.getElementById('inq-contact').value.trim();
+  const msg=document.getElementById('inq-msg').value.trim();
+  if(!name||!msg){alert('이름과 문의 내용을 입력해주세요.');return;}
+  const body=encodeURIComponent(`이름/브랜드: ${name}\n연락처: ${contact}\n\n문의내용:\n${msg}`);
+  const subject=encodeURIComponent('[treepoal] 문의드립니다');
+  window.location.href=`mailto:treepoal.furniture@gmail.com?subject=${subject}&body=${body}`;
+  document.getElementById('inq-form').style.display='none';
+  document.getElementById('inq-success').style.display='block';
+}
+
+renderMain();
+</script>
+</body>
+</html>
